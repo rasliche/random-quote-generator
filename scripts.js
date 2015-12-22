@@ -24,10 +24,7 @@ var RQG = function() {
 
   this.logAllRecentIndexes = function() {
     if (recentQuotesIndexes.length > 0) {
-      console.log("recentQuotesIndexes is > 1");
-      for (x in recentQuotesIndexes) {
-        console.log(x);
-      }
+      console.log(recentQuotesIndexes);
       return true;
     } else {
       console.log("There are no recent quotes");
@@ -59,7 +56,7 @@ var RQG = function() {
       i = this.randomIndex();
       console.log("Duplicate Quote");
     }
-    if (recentQuotesIndexes.length > 3){
+    if (recentQuotesIndexes.length > 2){
       var shifted = recentQuotesIndexes.shift();
       //console.log("Shifted: " + shifted);
     }
@@ -84,6 +81,7 @@ $('document').ready( function() {
   $author.html(quote["author"]);
   $('.new-quote').on('click', function() {
     quote = RQG.getRandomQuote();
+    console.log(RQG.logAllRecentIndexes());
     $bucket.html(quote["quote"]);
     $author.html(quote["author"]);
   })
