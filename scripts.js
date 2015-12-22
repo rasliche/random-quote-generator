@@ -59,7 +59,7 @@ var RQG = function() {
       i = this.randomIndex();
       console.log("Duplicate Quote");
     }
-    if (recentQuotesIndexes.length > 9){
+    if (recentQuotesIndexes.length > 3){
       var shifted = recentQuotesIndexes.shift();
       //console.log("Shifted: " + shifted);
     }
@@ -79,8 +79,12 @@ var quote = RQG.getRandomQuote();
 
 $('document').ready( function() {
   $bucket = $('.quote-bucket');
-  //console.log($bucket);
   $bucket.html(quote["quote"]);
   $author = $('.quote-author');
   $author.html(quote["author"]);
+  $('.new-quote').on('click', function() {
+    quote = RQG.getRandomQuote();
+    $bucket.html(quote["quote"]);
+    $author.html(quote["author"]);
+  })
 });
