@@ -75,14 +75,25 @@ RQG.addQuotes(quoteLibrary);
 var quote = RQG.getRandomQuote();
 
 $('document').ready( function() {
+  var buildURL = function(quoteText) {
+    var urlBase = "https://twitter.com/intent/tweet?";
+    var text = "text=" + encodeURI('"'+quoteText+'"');
+    var via = "&via=rasliche";
+    var url = "&" + encodeURI("http://rasliche.github.io/random-quote-generator/");
+    return urlBase+text+via+url;
+  };
+  $tweet = $('.twitter-share-button');
   $bucket = $('.quote-bucket');
   $bucket.html(quote["quote"]);
   $author = $('.quote-author');
   $author.html(quote["author"]);
+  $tweet.attr( "href", buildURL(quote["quote"]));
   $('.new-quote').on('click', function() {
     quote = RQG.getRandomQuote();
     console.log(RQG.logAllRecentIndexes());
     $bucket.html(quote["quote"]);
     $author.html(quote["author"]);
+    $tweet.attr( "href", buildURL(quote["quote"]));
+    console.log(buildURL(quote["quote"]));
   })
 });
