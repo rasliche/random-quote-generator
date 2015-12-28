@@ -134,7 +134,7 @@ $('document').ready( function() {
     var urlBase = "https://twitter.com/intent/tweet?";
     var text = "text=" + encodeURIComponent('"'+quoteText+'"');
     var via = "&via=rasliche";
-    var url = "&" + encodeURI("http://rasliche.github.io/random-quote-generator/");
+    var url = "&" + encodeURIComponent("http://rasliche.github.io/random-quote-generator/");
     return urlBase+text+via+url;
   };
 
