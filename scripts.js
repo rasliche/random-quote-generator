@@ -75,6 +75,61 @@ RQG.addQuotes(quoteLibrary);
 var quote = RQG.getRandomQuote();
 
 $('document').ready( function() {
+
+  // This is code from twitter's website
+  // It is basically just intercepting click
+  // events by adding a listener to 'document'
+  // and then checking to see if the clicked
+  // element was <a>. If it was, and the href
+  // attribute was targeting the twitter domain
+  // with the Web Intent URL, it creates a new
+  // window and complete's the request there.
+  (function() {
+  if (window.__twitterIntentHandler) return;
+  var intentRegex = /twitter\.com\/intent\/(\w+)/,
+      windowOptions = 'scrollbars=yes,resizable=yes,toolbar=no,location=yes',
+      width = 550,
+      height = 420,
+      winHeight = screen.height,
+      winWidth = screen.width;
+
+  function handleIntent(e) {
+    e = e || window.event;
+    var target = e.target || e.srcElement,
+        m, left, top;
+
+    while (target && target.nodeName.toLowerCase() !== 'a') {
+      target = target.parentNode;
+    }
+
+    if (target && target.nodeName.toLowerCase() === 'a' && target.href) {
+      m = target.href.match(intentRegex);
+      if (m) {
+        left = Math.round((winWidth / 2) - (width / 2));
+        top = 0;
+
+        if (winHeight > height) {
+          top = Math.round((winHeight / 2) - (height / 2));
+        }
+
+        window.open(target.href, 'intent', windowOptions + ',width=' + width +
+                                           ',height=' + height + ',left=' + left + ',top=' + top);
+        e.returnValue = false;
+        e.preventDefault && e.preventDefault();
+      }
+    }
+  }
+
+  if (document.addEventListener) {
+    document.addEventListener('click', handleIntent, false);
+  } else if (document.attachEvent) {
+    document.attachEvent('onclick', handleIntent);
+  }
+  window.__twitterIntentHandler = true;
+}()); // End Twitter code
+
+  // Function to build a URL given some text to quote and tweet out
+
   var buildURL = function(quoteText) {
     var urlBase = "https://twitter.com/intent/tweet?";
     var text = "text=" + encodeURI('"'+quoteText+'"');
@@ -82,6 +137,7 @@ $('document').ready( function() {
     var url = "&" + encodeURI("http://rasliche.github.io/random-quote-generator/");
     return urlBase+text+via+url;
   };
+
   $tweet = $('.twitter-share-button');
   $bucket = $('.quote-bucket');
   $bucket.html(quote["quote"]);

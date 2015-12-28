@@ -1,3 +1,12 @@
+body {
+  background-color: #fff;
+}
+
+.top {
+  background-color: #ddd;
+  padding: 0;
+  margin: 0;
+}
 .well { height: 220px; }
 
 .btn { width: 150px; }
